@@ -1,10 +1,37 @@
-const express = require("express");  
-const app = express();  
+const express = require("express");
+const { Builder, By, until } = require("selenium-webdriver");
 
-app.get("/", (req, res) => {  
-    res.send("Selenium Server is Running");  
-});  
+const app = express();
 
-app.listen(4444, () => {  
-    console.log("Server running on port 4444");  
+// تشغيل المتصفح باستخدام Selenium
+async function runSelenium(url) {
+  let driver = await new Builder()
+    .forBrowser("chrome")
+    .setChromeOptions(
+      require("selenium-webdriver/chrome").Options().headless()
+    )
+    .build();
+
+  try {
+    await driver.get(url);
+    let title = await driver.getTitle();
+    return `Page Title: ${title}`;
+  } catch (error) {
+    return `Error: ${error.message}`;
+  } finally {
+    await driver.quit();
+  }
+}
+
+// نقطة الوصول الرئيسية
+app.get("/", async (req, res) => {
+  let url = req.query.url || "https://www.google.com";
+  let result = await runSelenium(url);
+  res.send(result);
+});
+
+// تشغيل السيرفر على بورت 4444
+const PORT = process.env.PORT || 4444;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
