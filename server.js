@@ -1,15 +1,23 @@
 const express = require("express");
 const { Builder, By, until } = require("selenium-webdriver");
+const chrome = require("selenium-webdriver/chrome");
 
 const app = express();
 
 // تشغيل المتصفح باستخدام Selenium
 async function runSelenium(url) {
+  let options = new chrome.Options();
+  options.headless(); // تشغيل المتصفح في وضع بدون واجهة
+  options.addArguments(
+    "--no-sandbox",
+    "--disable-dev-shm-usage",
+    "--disable-gpu",
+    "--remote-debugging-port=9222"
+  );
+
   let driver = await new Builder()
     .forBrowser("chrome")
-    .setChromeOptions(
-      require("selenium-webdriver/chrome").Options().headless()
-    )
+    .setChromeOptions(options)
     .build();
 
   try {
