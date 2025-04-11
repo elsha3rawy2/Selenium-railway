@@ -1,0 +1,76 @@
+﻿<xml xmlns="http://www.w3.org/1999/xhtml" collection="false">
+<variable>
+<variable>stake</variable>
+<variable>duration</variable>
+<variable>target_profit</variable>
+<variable>target_loss</variable>
+</variables>
+<block type="bot_start">
+<block type="variables_set">
+<field name="VAR">target_profit</field>
+<value name="VALUE">
+<shadow type="math_number">
+<field name="NUM">9999</field>
+</shadow>
+</value>
+<block type="variables_set">
+<field name="VAR">target_loss</field>
+<value name="VALUE">
+<shadow type="math_number">
+<field name="NUM">9999</field>
+</shadow>
+</value>
+<block type="variables_set">
+<field name="VAR">stake</field>
+<value name="VALUE">
+<shadow type="math_number">
+<field name="NUM">1</field>
+</shadow>
+</value>
+<block type="variables_set">
+<field name="VAR">duration</field>
+<value name="VALUE">
+<shadow type="math_number">
+<field name="NUM">5</field>
+</shadow>
+</value>
+<statement name="SUBSTACK">
+<block type="controls_parallel">
+<statement name="STACK0">
+<block type="trade">
+<field name="TRADETYPE">CALL</field>
+<value name="AMOUNT">
+<shadow type="math_number">
+<field name="NUM">1</field>
+</shadow>
+</value>
+<value name="DURATION">
+<shadow type="math_number">
+<field name="NUM">5</field>
+</shadow>
+</value>
+</block>
+</statement>
+<statement name="STACK1">
+<block type="trade">
+<field name="TRADETYPE">PUT</field>
+<value name="AMOUNT">
+<shadow type="math_number">
+<field name="NUM">1</field>
+</shadow>
+</value>
+<value name="DURATION">
+<shadow type="math_number">
+<field name="NUM">5</field>
+</shadow>
+</value>
+</block>
+</statement>
+</block>
+</statement>
+</block>
+</block>
+</block>
+</block>
+</block>
+</xml>
