@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <variables>
+    <variable>stake</variable>
+    <variable>duration_value</variable>
+    <variable>barrier_high</variable>
+    <variable>barrier_low</variable>
+  </variables>
+  <block type="trade" id="1" x="50" y="50">
+    <field name="MARKET_LIST">synthetic_index</field>
+    <field name="SUBMARKET_LIST">random_index</field>
+    <field name="SYMBOL_LIST">R_100</field>
+    <field name="TRADETYPECAT_LIST">rise_fall</field>
+    <field name="TRADETYPE_LIST">higherlower</field>
+    <field name="TYPE_LIST">higherlower</field>
+    <field name="CANDLEINTERVAL_LIST">1</field>
+    <field name="TIME_MACHINE_ENABLED">FALSE</field>
+    <field name="RESTARTONERROR">TRUE</field>
+    <statement name="INITIALIZATION">
+      <block type="variables_set">
+        <field name="VAR">stake</field>
+        <value name="VALUE">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set">
+            <field name="VAR">duration_value</field>
+            <value name="VALUE">
+              <block type="math_number">
+                <field name="NUM">5</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set">
+                <field name="VAR">barrier_high</field>
+                <value name="VALUE">
+                  <block type="math_number">
+                    <field name="NUM">0.3</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set">
+                    <field name="VAR">barrier_low</field>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">-0.3</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="tradeOptions" id="2" x="350" y="50">
+    <field name="DURATIONTYPE_LIST">t</field>
+    <field name="CURRENCY_LIST">USD</field>
+    <field name="BARRIEROFFSETTYPE_LIST">+</field>
+    <field name="SECONDBARRIEROFFSETTYPE_LIST">-</field>
+    <value name="DURATION">
+      <block type="variables_get">
+        <field name="VAR">duration_value</field>
+      </block>
+    </value>
+    <value name="AMOUNT">
+      <block type="variables_get">
+        <field name="VAR">stake</field>
+      </block>
+    </value>
+    <value name="BARRIER_OFFSET">
+      <block type="variables_get">
+        <field name="VAR">barrier_high</field>
+      </block>
+    </value>
+    <value name="SECONDBARRIER_OFFSET">
+      <block type="variables_get">
+        <field name="VAR">barrier_low</field>
+      </block>
+    </value>
+  </block>
+  <block type="before_purchase" id="3" x="350" y="250">
+    <statement name="BEFOREPURCHASE_STACK">
+      <block type="logic_boolean">
+        <field name="BOOL">TRUE</field>
+      </block>
+    </statement>
+  </block>
+  <block type="purchase" id="4" x="350" y="400">
+    <field name="PURCHASE_LIST">CALL</field>
+    <next>
+      <block type="purchase">
+        <field name="PURCHASE_LIST">PUT</field>
+      </block>
+    </next>
+  </block>
+</xml>
